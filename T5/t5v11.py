@@ -14,6 +14,8 @@ from comfy import model_management
 
 from comfy.sd1_clip import parse_parentheses, token_weights, escape_important, unescape_important, safe_load_embed_zip, expand_directory_list, load_embed
 
+from .ops import use_comfy_ops
+
 class T5v11Model(torch.nn.Module):
     def __init__(self, textmodel_ver="xxl", textmodel_json_config=None, textmodel_path=None, device="cpu", max_length=120, freeze=True, dtype=None):
         super().__init__()
@@ -45,7 +47,7 @@ class T5v11Model(torch.nn.Module):
                 )
             config = T5Config.from_json_file(textmodel_json_config)
             self.num_layers = config.num_hidden_layers
-            with comfy.ops.use_comfy_ops(device, dtype):
+            with use_comfy_ops(device, dtype):
                 with modeling_utils.no_init_weights():
                     self.transformer = T5EncoderModel(config)
 
