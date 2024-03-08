@@ -23,7 +23,7 @@ class Conv2d(torch.nn.Conv2d):
 
 
 @contextmanager
-def use_comfy_ops(): # Kind of an ugly hack but I can't think of a better way
+def use_comfy_ops(device, dtype): # Kind of an ugly hack but I can't think of a better way
     old_torch_nn_linear = torch.nn.Linear
     torch.nn.Linear = Linear
     try:
